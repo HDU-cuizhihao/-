@@ -1,0 +1,77 @@
+栈
+
+#define N=1000(初始栈的大小)
+#define n=10(栈大小增加的步长)
+
+1.1定义
+
+tpyedef struct{
+  int*base;
+  int*top;
+  int stacksize;
+}sqstack;
+
+1.2初始化
+
+int init(sqstack&s){
+  s.base=(int*)malloc(N*sizeof(int));
+  if(!s.base) exit(overflow);
+  s.top=s.base;
+  s.stacksize=N;
+}//init
+
+1.3取栈顶元素
+
+int gettop(sqstack&s,int&e){
+  if(s.top==s.base) return error;
+  e=*(s.top-1);
+  return e;
+}//gettop
+
+1.4入栈
+
+void push(sqsatck&s,int e){
+  if(s.top-s.base>s.stacksize){
+    s.base=(int*)realloc(s.base,(N+n)*sizeof(int));
+    if(!s.base)exit(overflow);
+    s.top=s.base+N+n;
+    s.stacksize=N+n;
+  }
+  *s.top++=e;
+  return ;
+}//push
+
+1.5出栈
+
+void pop(sqstack&s,int&e){
+  if(s.top==s.base)return error;
+  e=*--s.top;
+  return ;
+}//pop
+
+2.1 数制转换
+
+void conversion(){
+  init(s);
+  int n;
+  scanf("%d",&n);
+  while(n){
+    push(s,n%8);
+    n/=8;
+  }
+  while(!stackempty(s)){
+    int e;  
+    gettop(s,e);
+    printf("%d",e);
+  }
+  return ;
+}//conversion
+
+2.2括号匹配检查
+2.3模拟缓冲区
+
+3.1 迷宫
+3.2 汉诺塔
+
+
+      
