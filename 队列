@@ -1,1 +1,95 @@
+一、链表构造单向队列
 
+1.1定义
+typedef struct node{
+  int data;
+  struct node*next;
+}node,*ptr;
+typrdef struct{
+  ptr front;
+  ptr rear;
+}link;
+
+1.2初始化
+
+void init(link&q){
+  q.front=q.rear=(ptr)malloc(sizeof(node));
+  if(!q.front)exit(overflow);
+  q.front->next=NULL;
+  return ;
+}
+
+1.3销毁队列
+
+void destroy(link&q){
+  while(q.front){
+    q.rear=q.front->next;
+    free(q.front);
+    q.front=q.rear;
+  }
+  return ;
+}
+
+1.4入队
+
+void enqueue(link&q,int e){
+  ptr p=(ptr)malloc(sizeof(node));
+  if(!p)exit(overflow);
+  p->data=e;
+  q.rear->next=p;
+  p->next=NULL;
+}
+
+1.5出队
+
+void dequeue(link&q,int&e){
+  if(q.front==q.rear) return error;
+  ptr p=(ptr)malloc(sizeof(node));
+  p=q.front->next;
+  free(q.front);
+  q.front=p;
+}
+
+二、顺序表实现循环队列(front是队首，rear是队尾后面一个元素)
+
+2.1定义
+
+#define maxqsize 100
+typedef struct{
+  int *base[];
+  int front;
+  int rear;
+}sqqueue;
+
+2.2构造并初始化
+
+void init(sqqueue&q){
+  q.base=(int*)malloc(maxqsize*sizeof(int));
+  if(!q.base) exit(overflow);
+  q.front=q.rear=0;
+  return ;
+}
+
+2.3返回队列长度
+
+int length(sqqueue q){
+  return (q.rear-q.front+maxqsize)%maxqsize;
+}
+
+2.4入队
+
+void enqueue(sqqueue&q,int e){
+  if((q.rear+1)%maxqsize==q.front) return error;
+  q.base[q.rear]=e;
+  q.rear=(q.rear+1)%maxqsize;
+  return ;
+}
+
+2.5出队
+
+void dequeue(sqqueue&q,int&e){
+  if(q.front==q.rear) return error;
+  e=q.base[q.front];
+  q.front=(q.front+1)%maxqsize;
+  return;
+}
